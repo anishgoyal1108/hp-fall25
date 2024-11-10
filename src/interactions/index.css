@@ -1,0 +1,99 @@
+* {
+box-sizing: border-box;
+}
+.container {
+flex-direction: column;
+width: 90%;
+height: 90%;
+padding: 20px;
+background-color: #fff;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+border-radius: 10px;
+text-align: center;
+}
+body {
+font-family: Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+padding: 0;
+margin: 0;
+background-color: #f7f7f7;
+}
+header {
+display: flex;
+align-items: center;
+padding: 20px; /* Adds some space around the logo */
+position: absolute;
+width: 90%;
+}
+.logo-title {
+width: 200px;
+height: auto;
+}
+.firstTitle {
+margin-top: 50px;
+font-size: 30px;
+font-weight: bold;
+color: #333;
+margin-bottom: 0px;
+}
+.interactionsIndicator {
+
+}
+.interactionsList {
+
+}
+.circle-container {
+    display: flex;       /* Aligns items in a row */
+    align-items: center; /* Centers items vertically within the container */
+    justify-content: center;
+    
+}
+.circle {
+    width: 10px; /* Set the size of the circle */
+    height: 10px;
+    border-radius: 50%; /* Make it a circle */
+    margin-right: 10px; /* Space between circle and text */
+    margin-left: 40px;
+}
+.circle-text {
+    font-size: 14px; /* Adjust the text size as needed */
+    margin-right: 10px;
+}
+.title {
+font-size: 18px;
+font-weight: bold;
+color: #333;
+}
+.description {
+font-size: 14px;
+color: #555;
+margin: 0px 0 20px;
+}
+button {
+padding: 10px 15px;
+background-color: #35A446;
+border: none;
+border-radius: 5px;
+color: #fff;
+font-size: 14px;
+cursor: pointer;
+}
+button:disabled {
+background-color: #aaa;
+}
+.results {
+margin-top: 20px;
+text-align: left;
+}
+.result-item {
+padding: 10px;
+border: 1px dotted #9747FF;
+border-radius: 5px;
+margin-bottom: 10px;
+}
+.severity {
+font-weight: bold;
+}

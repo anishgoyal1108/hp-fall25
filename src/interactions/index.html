@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Interaction Checker</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js"></script> 
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="../../Logo.svg" alt="Logo" class="logo-title">
+    </header>
+    <br>
+    <br>
+  <!-- <div class="title">Check drug interactions by entering the brand name or active ingredient.</div> -->
+  <div class="firstTitle">Interactions Identified:</div>
+  <br>
+  <div class="description">View interactions for [brand name/active ingredient] and the medicines listed below.</div>
+  <div class="circle-container">
+    <div class="circle" style="background-color: #E82326"></div>
+    <span class="circle-text" style="color: #E82326">Severe</span>
+    <div class="circle" style="background-color: #E5701C"></div>
+    <span class="circle-text" style="color: #E5701C">Moderate</span>
+    <div class="circle" style="background-color: #E6CF3D"></div>
+    <span class="circle-text" style="color: #E6CF3D">Mild</span>
+    <div class="circle" style="background-color: #D9D9D9"></div>
+    <span class="circle-text" style="color: #D9D9D9">None</span>
+    <div class="circle" style="background-color: #74A662"></div>
+    <span class="circle-text" style="color: #74A662">Unknown</span>
+  </div>
+  <br>
+  <button onclick="idk">View Interaction Reports</button>
+  <div class="results" id="results"></div>
+</div>
+<div id="resultsContainer"></div>
+
+    <script type="text/javascript">
+        // Function to display only drug names from local storage
+        function displayInteractions() {
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            // Retrieve the interactions data from local storage
+            const data = JSON.parse(localStorage.getItem('interactionsData'));
+
+            for (let i = 0; i < data.interaction.interaction; i++) {
+                if (data.interaction.interaction == "Major") {
+                    <div class="circle" style="background-color: #E82326"></div>;
+                    <span class="circle-text">${data.interaction.drug}</span>
+                }
+            }
+            // Iterate through the interactions and display only the drug names
+            data.interactions.forEach(interaction => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                if (interaction.se)
+                item.innerHTML = `<p><strong>${interaction.drug}</strong></p>`; // Display drug name only
+                resultsContainer.appendChild(item);
+            });
+        }
+
+        // Call the function to display interactions when the page loads
+        displayInteractions();
+    </script>
+</body>
+</html>

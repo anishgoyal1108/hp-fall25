@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Interaction Checker</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js"></script> 
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="../../Logo.svg" alt="Logo" class="logo-title">
+    </header>
+    <br>
+    <br>
+  <!-- <div class="title">Check drug interactions by entering the brand name or active ingredient.</div> -->
+  <div class="firstTitle">Interactions Identified:</div>
+  <br>
+  <div class="description">View interactions reports for [brand name/active ingredient] and the medicines listed below.</div>
+  <div class="circle-container">
+    <div class="circle" style="background-color: #E82326"></div>
+    <span class="circle-text" style="color: #E82326">Severe</span>
+    <div class="circle" style="background-color: #E5701C"></div>
+    <span class="circle-text" style="color: #E5701C">Moderate</span>
+    <div class="circle" style="background-color: #E6CF3D"></div>
+    <span class="circle-text" style="color: #E6CF3D">Mild</span>
+    <div class="circle" style="background-color: #D9D9D9"></div>
+    <span class="circle-text" style="color: #D9D9D9">None</span>
+    <div class="circle" style="background-color: #74A662"></div>
+    <span class="circle-text" style="color: #74A662">Unknown</span>
+  </div>
+  <br>
+  <button onclick="idk">View Interaction Reports</button>
+  <div class="results" id="results"></div>
+</div>
+
+</body>
+</html>
