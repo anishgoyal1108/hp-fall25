@@ -95,10 +95,19 @@ def search_existing_conditions(input):
         return closest_match
 
 
-9
+def translate_professional_to_consumer(professional_description):
+    prompt = f"Pretend you are a clinical physician. Translate the following professional drug interaction description into a more consumer-friendly description. Write the consumer-friendly description only; do not prepend anything before your response:\n\n{professional_description}"
+    response = requests.post(
+        "http://localhost:11434/api/generate",
+        json={"model": "llama3.2:3b", "prompt": prompt, "stream": False},
+    )
+    response_json = response.json()
+    return response_json["response"]
+
+
 if __name__ == "__main__":
-    active_ingredient = "ADHD"
-    print(search_existing_conditions(active_ingredient))
+    condition = "ADHD"
+    active_ingredient = "diazepam"
     interactions = [
         interaction
         for interaction in get_drug_interactions(active_ingredient)
@@ -114,5 +123,3 @@ if __name__ == "__main__":
         interactions, get_patient_descriptions_from_interactions(interactions)
     ):
         interaction["patient_description"] = description
-
-    print(interactions)
