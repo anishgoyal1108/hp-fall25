@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Interaction Checker</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="index.js"></script> 
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="../Logo.svg" alt="Logo" class="logo-title">
+    </header>
+    <br><br>
+    
+    <div class="title">Brand Name or Active Ingredient to be Prescribed:</div>
+    <br>
+    <div class="input-container">
+      <input id="drugInput" type="text" placeholder="Enter Brand Name or Active Ingredient" />
+    </div>
+  
+    <div class="title">Condition Being Prescribed For:</div>
+    <br>
+    <div class="input-container">
+      <input id="conditionInput" type="text" placeholder="Enter Condition" />
+    </div>
+
+    <div class="title">List of Patient's Current Medications:</div>
+    <div class="description">Medications should be separated with commas (e.g., Valium, Prozac).</div>
+    <div class="input-container">
+      <input id="medicationsInput" type="text" placeholder="Enter Medications" />
+    </div>
+    
+    <button onclick="checkDrugInteraction()">Check for Interactions</button>
+    <div class="results" id="results"></div>
+</div>
+
+</body>
+
+<div id="errorModal" class="modal">
+  <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="errorMessage"></p>
+  </div>
+</div>
+
+</html>
