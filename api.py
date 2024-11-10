@@ -6,6 +6,58 @@ from bs4 import BeautifulSoup
 app = Flask(__name__)
 
 
+def levenshtein_distance(s1, s2):
+    if len(s1) < len(s2):
+        return levenshtein_distance(s2, s1)
+
+    if len(s2) == 0:
+        return len(s1)
+
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1
+            deletions = current_row[j] + 1
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+
+    return previous_row[-1]
+
+
+def search_existing_conditions(input):
+    with open("conditions.json") as f:
+        conditions = json.load(f)
+        min_distance = float("inf")
+        closest_match = None
+
+        for condition, url in conditions.items():
+            distance = levenshtein_distance(input.lower(), condition.lower())
+            ratio = 1 - distance / max(len(input), len(condition))
+            if ratio > 0.5 and distance < min_distance:
+                min_distance = distance
+                closest_match = (condition, url)
+
+        return closest_match
+
+
+def search_existing_drugs(input):
+    with open("drugs.json") as f:
+        drugs = json.load(f)
+        min_distance = float("inf")
+        closest_match = None
+
+        for drug, url in drugs.items():
+            distance = levenshtein_distance(input.lower(), drug.lower())
+            ratio = 1 - distance / max(len(input), len(drug))
+            if ratio > 0.5 and distance < min_distance:
+                min_distance = distance
+                closest_match = (drug, url)
+
+        return closest_match
+
+
 class DrugInteractionChecker:
     def __init__(self, active_ingredient):
         self.active_ingredient = active_ingredient
@@ -23,7 +75,18 @@ class DrugInteractionChecker:
         self.build_interactions()
 
     def get_drug_interactions(self):
+        prelim_url = search_existing_drugs(self.active_ingredient)[1]
         url = f"https://www.drugs.com/drug-interactions/{self.active_ingredient}.html"
+        if not prelim_url:
+            return []
+        response = requests.get(prelim_url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        drug_subtitle = soup.find("p", class_="drug-subtitle")
+        if drug_subtitle:
+            a_tag = drug_subtitle.find("a")
+            if a_tag:
+                self.active_ingredient = a_tag.text.strip()
+                url = f"https://www.drugs.com/drug-interactions{a_tag['href']}"
         response = requests.get(url)
 
         if response.status_code != 200:
@@ -91,58 +154,6 @@ class DrugInteractionChecker:
             self.knowns, self.get_patient_descriptions_from_interactions(self.knowns)
         ):
             interaction["patient_description"] = description
-
-
-def levenshtein_distance(s1, s2):
-    if len(s1) < len(s2):
-        return levenshtein_distance(s2, s1)
-
-    if len(s2) == 0:
-        return len(s1)
-
-    previous_row = range(len(s2) + 1)
-    for i, c1 in enumerate(s1):
-        current_row = [i + 1]
-        for j, c2 in enumerate(s2):
-            insertions = previous_row[j + 1] + 1
-            deletions = current_row[j] + 1
-            substitutions = previous_row[j] + (c1 != c2)
-            current_row.append(min(insertions, deletions, substitutions))
-        previous_row = current_row
-
-    return previous_row[-1]
-
-
-def search_existing_conditions(input):
-    with open("conditions.json") as f:
-        conditions = json.load(f)
-        min_distance = float("inf")
-        closest_match = None
-
-        for condition, url in conditions.items():
-            distance = levenshtein_distance(input.lower(), condition.lower())
-            ratio = 1 - distance / max(len(input), len(condition))
-            if ratio > 0.5 and distance < min_distance:
-                min_distance = distance
-                closest_match = {condition: url}
-
-        return closest_match
-
-
-def search_existing_drugs(input):
-    with open("drugs.json") as f:
-        drugs = json.load(f)
-        min_distance = float("inf")
-        closest_match = None
-
-        for drug, url in drugs.items():
-            distance = levenshtein_distance(input.lower(), drug.lower())
-            ratio = 1 - distance / max(len(input), len(drug))
-            if ratio > 0.5 and distance < min_distance:
-                min_distance = distance
-                closest_match = {drug: url}
-
-        return closest_match
 
 
 def parse_drug_table(url):
