@@ -114,7 +114,6 @@ async function checkDrugInteraction() {
                   <p><strong>${interaction.drug}</strong></p>
                   <p>Interaction: ${interaction.interaction}</p>
                   <p>Severity: <strong>${interaction.severity}</strong></p>
-                  <p><a href="${interaction.url}" target="_blank">More info</a></p>
                   <p><strong>Professional Description:</strong> ${interaction.professional_description}</p>
                   <p><strong>Patient Description:</strong> ${interaction.patient_description}</p>
               `;
